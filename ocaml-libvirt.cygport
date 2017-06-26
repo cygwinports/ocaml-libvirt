@@ -1,0 +1,38 @@
+inherit ocaml
+
+NAME="ocaml-libvirt"
+VERSION=0.6.1.4
+RELEASE=1
+CATEGORY="Libs"
+SUMMARY="OCaml libvirt bindings"
+DESCRIPTION="This is a complete set of OCaml bindings around libvirt, exposing
+all known functionality to OCaml programs."
+HOMEPAGE="https://libvirt.org/ocaml/"
+SRC_URI="https://libvirt.org/sources/ocaml/ocaml-libvirt-${VERSION}.tar.gz"
+PATCH_URI="
+	fedora/0001-Use-C99-standard-int64_t-instead-of-OCaml-defined-an.patch
+	fedora/0001-Add-a-binding-for-virDomainCreateXML.patch
+	fedora/0001-Suppress-errors-to-stderr-and-use-thread-local-virEr.patch
+	fedora/0002-Don-t-bother-checking-return-from-virInitialize.patch
+	fedora/0001-Remove-unused-not_supported-function.patch
+	fedora/0001-Use-g-warn-error.patch
+	fedora/0002-Update-dependencies.patch
+	fedora/0003-Add-a-binding-for-virConnectGetAllDomainStats-RHBZ-1.patch
+	fedora/0004-examples-Print-more-stats-in-the-get_all_domain_stat.patch
+	fedora/0005-Change-binding-of-virConnectGetAllDomainStats-to-ret.patch
+	0.6.1.4-cygwin.patch
+"
+
+src_compile() {
+	cd ${S}
+	cygautoreconf
+	lndirs
+	cd ${B}
+	cygconf
+	cygmake -j1 all opt doc
+}
+
+src_install() {
+	cd ${B}
+	ocaml_install install-opt
+}

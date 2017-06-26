@@ -1,0 +1,12 @@
+--- origsrc/ocaml-libvirt-0.6.1.4/configure.ac	2017-03-27 19:19:45.044754100 -0500
++++ src/ocaml-libvirt-0.6.1.4/configure.ac	2017-03-27 19:24:21.666908300 -0500
+@@ -37,6 +37,9 @@ WARNINGS="-Wall -Werror"
+ CFLAGS_FPIC="-fPIC"
+ WIN32=no
+ case "$host" in
++  *-*-cygwin*)
++    CFLAGS_FPIC=""
++  ;;
+   *-*-mingw*)
+     WARNINGS="$WARNINGS -Wno-unused"
+     CFLAGS_FPIC=""
